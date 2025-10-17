@@ -131,16 +131,26 @@ with col_right:
     fig_bar = px.bar(pd.DataFrame({"Patterns": ["VAL rej", "VAH rej"], "Hit %": [62, 55]}), x="Patterns", y="Hit %")
     st.plotly_chart(fig_bar, use_container_width=True)
 
-# Upload & New Entry (Core for P&L/Reasoning)
-uploaded_file = st.file_uploader("Upload trades.log as CSV", type="csv")
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
+# Auto-pull from GitHub (fresh on load)
+@st.cache_data(ttl=3600)  # Cache 1 hour for perf
+def load_csv():
+    url = "https://raw.githubusercontent.com/[your-username]/AI_Agent_DT/main/trades.csv"
+    try:
+        return pd.read_csv(url)
+    except:
+        st.info("CSV not found—add trades.csv to repo.")
+        return pd.DataFrame()
+
+df = load_csv()
+if not df.empty:
+    st.success("Auto-loaded fresh CSV!")
     search_term = st.text_input("Search Reasoning (e.g., 'VAL probe')")
     if search_term:
         filtered_df = df[df['Reasoning'].str.contains(search_term, case=False, na=False)]
         st.dataframe(filtered_df)
     else:
         st.dataframe(df)
+    # Metrics (same as before)
     df['P&L'] = pd.to_numeric(df['Outcome $'], errors='coerce')
     total_pnl = df['P&L'].sum()
     hit_rate = (df['Hit/Miss'] == 'Hit').mean() * 100 if 'Hit/Miss' in df.columns else 0
@@ -148,21 +158,10 @@ if uploaded_file:
     st.metric("Hit Rate", f"{hit_rate:.1f}%")
     if 'Reasoning' in df.columns:
         common_reasons = df['Reasoning'].value_counts().head(5)
-        st.bar_chart(common_reasons)  # Profitable patterns visual
-    st.line_chart(df.set_index('TS')['P&L'].cumsum())  # Cumulative P&L
+        st.bar_chart(common_reasons)
+    st.line_chart(df.set_index('TS')['P&L'].cumsum())
     if st.button("Export CSV"):
         df.to_csv("download.csv", index=False)
         st.download_button("Download", data=open("download.csv", "rb"), file_name="trades_export.csv", mime="text/csv")
-
-with st.expander("New Entry"):
-    ts = datetime.now().strftime("%Y-%m-%d %H:%M")
-    direction = st.text_input("Direction + Confidence")
-    reasoning = st.text_area("Reasoning (e.g., VAL probe + vol z=1.5)")
-    entry = st.number_input("Entry Price")
-    stop = st.number_input("Stop")
-    target = st.number_input("Target")
-    outcome = st.number_input("Outcome $")
-    if st.button("Log It"):
-        new_row = pd.DataFrame({"TS": [ts], "Direction": [direction], "Reasoning": [reasoning], "Entry": [entry], "Stop": [stop], "Target": [target], "Outcome $": [outcome], "Hit/Miss": ["Hit" if outcome > 0 else "Miss"]})
-        new_row.to_csv("trades.csv", mode='a', header=False, index=False)
-        st.success("Logged! Re-upload for update.")
+else:
+    st.info("Upload manually or push CSV to repo.")
