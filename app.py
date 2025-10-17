@@ -4,19 +4,32 @@ import plotly.express as px  # Lightweight charts
 from datetime import datetime
 import secrets  # For simple password
 
-# Simple Password Gate (Security Tune)
+# Page Config & Dark Chic Theme (Design Tune)
+st.set_page_config(page_title="ES Dashboard", layout="wide", initial_sidebar_state="expanded")
+st.markdown("""
+<style>
+.main {background-color: #0e1117;}
+.stApp {background-color: #0e1117; color: #fafafa;}
+.sidebar .sidebar-content {background-color: #1a1d2e;}
+.metric-container {background-color: #16213e; color: #fafafa;}
+h1 {font-family: 'Arial', sans-serif; color: #00d4aa; font-size: 2rem;}
+.stMetric {font-family: 'Arial', sans-serif; font-size: 1.2rem;}
+</style>
+""", unsafe_allow_html=True)
+
+# Simple Password Gate (Security)
 if 'password' not in st.session_state:
     st.session_state.password = ''
-if st.session_state.password != 'your_secret_pass':  # Change this
-    st.session_state.password = st.text_input("Enter Password to View")
+if st.session_state.password != 'your_secret_pass':  # Change to something secure like "esEdge2025!"
+    st.session_state.password = st.text_input("Enter Password to View", type="password")
     if st.session_state.password == 'your_secret_pass':
         st.rerun()
     st.stop()
 
-st.title("Fibo Trading")
+st.title("ES Trading Dashboard")
 st.write("Log entries, reasoning, P&L—analyze edge. Tuned for perf: 10s refresh, masked IDs.")
 
-# Sidebar (Your Always-Visible)
+# Sidebar (Always Visible)
 with st.sidebar:
     st.header("Auto Status")
     status = st.selectbox("Status", ["● ON (GREEN)", "● OFF (RED)"])
@@ -40,8 +53,8 @@ with st.sidebar:
 
 # Sticky KPIs (Top Bar)
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("P&L Today", "+1.6R / $420")
-col2.metric("Max DD", "−0.6R")
+col1.metric("P&L Today", "+1.6R / $420", delta="+0.4R", delta_color="normal")
+col2.metric("Max DD", "−0.6R", delta="−0.2R", delta_color="inverse")
 col3.metric("Trades", "2 / 3")
 col4.metric("Expectancy", "+0.28R")
 col5, col6 = st.columns(2)
@@ -69,7 +82,7 @@ with col_right:
     df_orders = pd.DataFrame({"Order": ["Buy MES"], "Fill": ["6738.25"], "Reject": ["None"]})
     st.dataframe(df_orders)
 
-# Autonomy Gates (Visual Tune: Simple Checkboxes—Benefit: Quick Go/No-Go Scan)
+# Autonomy Gates (Visual Tune: Simple Checkboxes)
 st.subheader("Autonomy Gates (All True for New Orders)")
 col1, col2, col3, col4, col5 = st.columns(5)
 col1.metric("Trading Window", "✅ Open")
@@ -77,7 +90,6 @@ col2.metric("Risk", "✅ ≠ RED")
 col3.metric("Data/Broker", "✅ OK")
 col4.metric("No Breaker", "✅ Active")
 col5.metric("Strategy Gate", "❌ Passed")
-st.text("Last Block: Edge proximity > 2 pts from VAL/VAH")  # Visual only—benefit: 70% faster autonomy check; cut if clutter.
 
 # State & Regime + Risk Guardrails (Split)
 col_left, col_right = st.columns(2)
@@ -94,7 +106,7 @@ with col_right:
     st.text("Circuit trips today: News(10:01)")
     st.text("Three-strikes: 1/3")
 
-# Live Event Stream (Perf Tune: Button Refresh, Not Auto)
+# Live Event Stream (Perf Tune: Button Refresh)
 st.subheader("Live Event Stream")
 if st.button("Refresh Events (10s Poll)"):  # Avoids CPU spike
     st.text("14:15:00Z signal ES state=imbalanced_up conf=0.72 plan: L 6738 / SL 6730")
@@ -119,11 +131,16 @@ with col_right:
     fig_bar = px.bar(pd.DataFrame({"Patterns": ["VAL rej", "VAH rej"], "Hit %": [62, 55]}), x="Patterns", y="Hit %")
     st.plotly_chart(fig_bar, use_container_width=True)
 
-# Upload & New Entry (Your Core for P&L/Reasoning)
+# Upload & New Entry (Core for P&L/Reasoning)
 uploaded_file = st.file_uploader("Upload trades.log as CSV", type="csv")
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
-    st.dataframe(df)
+    search_term = st.text_input("Search Reasoning (e.g., 'VAL probe')")
+    if search_term:
+        filtered_df = df[df['Reasoning'].str.contains(search_term, case=False, na=False)]
+        st.dataframe(filtered_df)
+    else:
+        st.dataframe(df)
     df['P&L'] = pd.to_numeric(df['Outcome $'], errors='coerce')
     total_pnl = df['P&L'].sum()
     hit_rate = (df['Hit/Miss'] == 'Hit').mean() * 100 if 'Hit/Miss' in df.columns else 0
@@ -133,6 +150,9 @@ if uploaded_file:
         common_reasons = df['Reasoning'].value_counts().head(5)
         st.bar_chart(common_reasons)  # Profitable patterns visual
     st.line_chart(df.set_index('TS')['P&L'].cumsum())  # Cumulative P&L
+    if st.button("Export CSV"):
+        df.to_csv("download.csv", index=False)
+        st.download_button("Download", data=open("download.csv", "rb"), file_name="trades_export.csv", mime="text/csv")
 
 with st.expander("New Entry"):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M")
