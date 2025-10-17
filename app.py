@@ -8,11 +8,11 @@ import secrets  # For simple password
 st.set_page_config(page_title="ES Dashboard", layout="wide", initial_sidebar_state="expanded")
 st.markdown("""
 <style>
-.main {background-color: #0e1117;}
-.stApp {background-color: #0e1117; color: #fafafa;}
-.sidebar .sidebar-content {background-color: #1a1d2e;}
-.metric-container {background-color: #16213e; color: #fafafa;}
-h1 {font-family: 'Arial', sans-serif; color: #00d4aa; font-size: 2rem;}
+.main {background-color: #ffffff;}
+.stApp {background-color: #ffffff; color: #000000;}
+.sidebar .sidebar-content {background-color: #f0f2f6;}
+.metric-container {background-color: #e8f4fd; color: #000000;}
+h1 {font-family: 'Arial', sans-serif; color: #1f77b4; font-size: 2rem;}
 .stMetric {font-family: 'Arial', sans-serif; font-size: 1.2rem;}
 </style>
 """, unsafe_allow_html=True)
