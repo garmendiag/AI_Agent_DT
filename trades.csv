@@ -1,24 +1,5 @@
-2025-10-17 17:50,N/A,N/A,Watch for momentum shifts at 6720 support or 6750 resistance; monitor volume for spikes above averag,N/A,N/A,N/A,0,?
-2025-10-17 18:03,N/A,N/A,Watch 6736 for momentum; monitor volume for breakout clues above 6750 or breakdown below 6720. Stay ,N/A,N/A,N/A,0,?
-2025-10-17 18:11,Range + 65%,N/A,"**  
-- Watch price action at 6740 and 6720 for breakout signals.  
-- Monitor volume for spikes on any move; low volume breaks are likely false.  
-- Ob",Buy at 6720 if price retraces with rejection at support; Sell at 6750 if price tests resistance with failure to break.,N/A,"Long 6760, Short 6700.
-
-**",0,?
-2025-10-17 18:16,Range + 65%,60,"**  
-- Watch price action at 6740 and 6720 for breakout signals.  
-- Monitor volume for spikes on any move; low volume breaks are likely false.  
-- Ob",Buy at 6720 if price retraces with rejection at support; Sell at 6750 if price tests resistance with failure to break.,N/A,"Long 6760, Short 6700.
-
-**",0,?
-2025-10-17 18:18,"Range,",60,"**  
-Watch price action at 6740 resistance and 6725 support. Monitor volume for breakout/breakdown confirmation. Stay flat if no clear momentum develo",6736 (if price holds above 6730 support on a retest with volume confirmation),N/A,"6755 for long (15 points, 1.5R), 6710 for short (15 points, 1.5R).  
-- Invalidation: Reversal back into range (below 6740 for long, above 6725 for short) with no follow-through volume.
-
-**",0,?
-2025-10-17 18:20,"Range,",60,"**  
-Watch price action at 6740 resistance and 6725 support. Monitor volume for breakout/breakdown confirmation. Stay flat if no clear momentum develo",6736 (if price holds above 6730 support on a retest with volume confirmation),N/A,"6755 for long (15 points, 1.5R), 6710 for short (15 points, 1.5R).  
-- Invalidation: Reversal back into range (below 6740 for long, above 6725 for short) with no follow-through volume.
-
-**",0,?
+TS,Direction,Confidence,Reasoning,Entry,Stop,Target,Outcome $,Hit/Miss
+2025-10-17 14:00,Range + 65% confidence,65,Watch 5325 resistance for breakout or fakeout; monitor 5295 for rejection or support flip; track volume and price action for confirmation.,Long at 5320 if break and hold above 5325 with volume; Short at 5290 if rejection at 5295 with bearish momentum.,N/A,N/A,150,Hit
+2025-10-17 15:00,Range + 65% confidence,70,"Watch price action at 5345 for breakout signals. Monitor volume for confirmation (>1.5M on break). Track key levels: 5350 resistance, 5335 support.",Long at 5350 if price breaks and holds above with volume spike (>1.5M). Short at 5335 if price breaks below with similar volume confirmation.,N/A,100,,Hit
+2025-10-17 16:00,Range + 65% confidence,60,Watch price action near 6736 for breakout or rejection signals. Monitor volume for spikes (above average indicates conviction). Observe 6720/6770 reaction.,Long at 6720 if price tests support with rejection (higher low on 5-min chart). Short at 6770 if price nears resistance with failure to break (lower high on 5-min chart).,N/A,N/A,180,Hit
+2025-10-17 17:00,Range + 65% confidence,65,Watch for price action near 6725 support or 6745 resistance. Monitor volume for spikes (>50% above recent 10-min average) as a sign of breakout potential.,"Buy at 6725 or sell at 6745 if price approaches these levels with rejection (e.g., 5-min candle reversal or increased volume). No immediate entry due to lack of directional conviction in current range.",N/A,120,,
