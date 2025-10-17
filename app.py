@@ -134,7 +134,7 @@ with col_right:
 # Auto-pull from GitHub (fresh on load)
 @st.cache_data(ttl=3600)  # Cache 1 hour for perf
 def load_csv():
-    url = "https://raw.githubusercontent.com/[your-username]/AI_Agent_DT/main/trades.csv"
+    url = "https://raw.githubusercontent.com/garmendiag/AI_Agent_DT/main/trades.csv"
     try:
         return pd.read_csv(url)
     except:
