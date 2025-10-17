@@ -26,7 +26,7 @@ if st.session_state.password != 'your_secret_pass':  # Change to something secur
         st.rerun()
     st.stop()
 
-st.title("ES Trading Dashboard")
+st.title("FIBO TRADING")
 st.write("Log entries, reasoning, P&L—analyze edge. Tuned for perf: 10s refresh, masked IDs.")
 
 # Sidebar (Always Visible)
